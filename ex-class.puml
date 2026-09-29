@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+class BookingScreen <<boundary>> {
+  +selectBranch(branchId)
+  +selectService(serviceId)
+  +selectSlot(slot)
+  +showTicket(ticket)
+}
+class BookingController <<control>> {
+  +checkAvailability(branchId, serviceId, slot): Boolean
+}
+class Branch <<entity>> {
+  -branchId: String
+  -name: String
+  -address: String
+  +hasFreeSlot(slot): Boolean
+}
+class Ticket <<entity>> {
+  -ticketNo: String
+  -slot: DateTime
+  -status: String
+  +create(customerId, branchId, serviceId, slot): Ticket
+  +scheduleReminder()
+}
+class Customer <<entity>> {
+  -customerId: String
+  -name: String
+}
+abstract class Service {
+  -serviceId: String
+  -name: String
+}
+class AccountOpening
+class CardIssue
+class Complaint
+
+Customer "1" -- "0..*" Ticket
+Branch "1" -- "0..*" Ticket
+Service "1" -- "0..*" Ticket
+Service <|-- AccountOpening
+Service <|-- CardIssue
+Service <|-- Complaint
+@enduml

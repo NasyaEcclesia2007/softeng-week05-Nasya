@@ -1,0 +1,17 @@
+@startuml
+actor Customer
+boundary BookingScreen
+control BookingController
+entity Branch
+entity Ticket
+
+Customer -> BookingScreen : selectBranch(branchId)
+Customer -> BookingScreen : selectService(serviceId)
+Customer -> BookingScreen : selectSlot(slot)
+BookingScreen -> BookingController : checkAvailability(branchId, serviceId, slot)
+BookingController -> Branch : hasFreeSlot(slot)
+Branch --> BookingController : true
+BookingController -> Ticket : create(customerId, branchId, serviceId, slot)
+BookingController -> Ticket : scheduleReminder()
+BookingController -> BookingScreen : showTicket(ticket)
+@enduml
